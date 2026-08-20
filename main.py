@@ -13,9 +13,10 @@ async def lifespan(app):
     # ВАЖНО: замените URL на ваш реальный адрес (например, от ngrok)
     # Адрес должен быть доступен из интернета
     webhook_url = os.getenv("WEBHOOK")
-    print(f"Webhook установлен на {webhook_url}")
+    
     try:
         await bot.set_webhook(url=webhook_url)
+        print(f"Webhook установлен на {webhook_url}")
     except Exception as e:
         print (f"Произошла ошибка {e}" )
 

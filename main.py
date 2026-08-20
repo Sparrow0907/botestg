@@ -39,18 +39,18 @@ async def start(message: types.Message):
 
     await message.answer("Привет!")
 
-@dp.message(~Command()) # Все сообщения которые не являются командами
+@dp.message(~Command("vlad", "rita", "start")) # Все сообщения которые не являются командами
 async def echo(message:types.Message):
 
     await message.answer(message.text)
 
 
-@dp.message(Command("Vlad"))
+@dp.message(Command("vlad"))
 async def vlad(message: types.Message):
 
     await message.answer("Влад,ты дура!")
 
-@dp.message(Command("Rita"))
+@dp.message(Command("rita"))
 async def rita(message: types.Message):
 
     await message.answer("Рита,ты красавица!")

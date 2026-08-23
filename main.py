@@ -4,12 +4,10 @@ from aiogram import Bot, Dispatcher, types
 from aiogram.filters import Command
 from dotenv import load_dotenv
 from contextlib import asynccontextmanager  # Добавьте этот импорт
-import requests
-import time
+
 
 load_dotenv()
 
-app = FastAPI(lifespan=lifespan)  # Передаем lifespan при создании приложения
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 
@@ -37,6 +35,7 @@ async def lifespan(app):
     print("🔄 Webhook удален")
 
 
+app = FastAPI(lifespan=lifespan)  # Передаем lifespan при создании приложения
 
 @dp.message(Command("start"))
 async def start(message: types.Message):

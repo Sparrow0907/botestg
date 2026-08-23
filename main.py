@@ -9,12 +9,6 @@ from contextlib import asynccontextmanager  # Добавьте этот импо
 load_dotenv()
 
 
-BOT_TOKEN = os.getenv("BOT_TOKEN")
-
-bot = Bot(token=BOT_TOKEN)
-
-dp = Dispatcher()
-
 # --- НОВЫЙ способ установки вебхука (для FastAPI) ---
 @asynccontextmanager
 async def lifespan(app):
@@ -36,6 +30,12 @@ async def lifespan(app):
 
 
 app = FastAPI(lifespan=lifespan)  # Передаем lifespan при создании приложения
+
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+
+bot = Bot(token=BOT_TOKEN)
+
+dp = Dispatcher()
 
 @dp.message(Command("start"))
 async def start(message: types.Message):

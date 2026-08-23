@@ -4,8 +4,18 @@ from aiogram import Bot, Dispatcher, types
 from aiogram.filters import Command
 from dotenv import load_dotenv
 from contextlib import asynccontextmanager  # Добавьте этот импорт
+import requests
+import time
 
 load_dotenv()
+
+app = FastAPI(lifespan=lifespan)  # Передаем lifespan при создании приложения
+
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+
+bot = Bot(token=BOT_TOKEN)
+
+dp = Dispatcher()
 
 # --- НОВЫЙ способ установки вебхука (для FastAPI) ---
 @asynccontextmanager
@@ -26,13 +36,7 @@ async def lifespan(app):
     await bot.delete_webhook()
     print("🔄 Webhook удален")
 
-app = FastAPI(lifespan=lifespan)  # Передаем lifespan при создании приложения
 
-BOT_TOKEN = os.getenv("BOT_TOKEN")
-
-bot = Bot(token=BOT_TOKEN)
-
-dp = Dispatcher()
 
 @dp.message(Command("start"))
 async def start(message: types.Message):
@@ -55,6 +59,10 @@ async def rita(message: types.Message):
 
     await message.answer("Рита,ты красавица!")
 
+
+@app.get("/ping")
+async def ping():
+    return{"status": "ok","message" : "BOT работает"}
 
 # --- Эндпоинт для вебхука ---
 # Telegram будет присылать обновления (сообщения) на этот адрес

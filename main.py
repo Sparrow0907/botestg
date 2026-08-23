@@ -63,6 +63,10 @@ async def rita(message: types.Message):
 async def ping():
     return{"status": "ok","message" : "BOT работает"}
 
+@app.get("/webhook")
+async def webhook():
+    return {"status": "ok", "message": "Webhook endpoint. Use POST for updates"}
+
 # --- Эндпоинт для вебхука ---
 # Telegram будет присылать обновления (сообщения) на этот адрес
 @app.post("/webhook")

@@ -61,7 +61,23 @@ async def rita(message: types.Message):
 
 @app.get("/ping")
 async def ping():
-    return{"status": "ok","message" : "BOT работает"}
+    # Получаем информацию о текущем вебхуке
+    webhook_info = await bot.get_webhook_info()
+    expected_url = os.getenv("WEBHOOK")  # тот URL, который должен быть установлен
+
+    # Если вебхук не установлен или URL не совпадает – переустанавливаем
+    if webhook_info.url != expected_url:
+        # Для надёжности можно сначала удалить старый вебхук (необязательно)
+        # await bot.delete_webhook()
+        await bot.set_webhook(url=expected_url)
+        return {
+            "status": "webhook updated",
+            "old_url": webhook_info.url,
+            "new_url": expected_url
+        }
+
+    # Всё в порядке
+    return {"status": "ok", "webhook_url": webhook_info.url}
 
 @app.get("/webhook")
 async def webhook():
